@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import ProductCard from '../component/ProductCard.jsx';
 
 const ProductAll = () => {
 
@@ -17,7 +18,11 @@ const ProductAll = () => {
   }, []);
 
   return (
-      <></>
+      <>
+        {productList.map((item, index) => (
+            <ProductCard key={index} product={productList[index]}/>
+        ))}
+      </>
   )
 }
 export default ProductAll
