@@ -25,7 +25,7 @@ const Navbar = () => {
       <div>
         <div className={'button-list'}>
           <FontAwesomeIcon icon={faUser} />
-          <div>로그인</div>
+          <div>Login</div>
           <button onClick={toggleSearch}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
