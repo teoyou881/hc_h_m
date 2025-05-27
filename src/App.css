@@ -1,3 +1,9 @@
+html {
+  scrollbar-gutter: stable both-edges;
+}
+body {
+  overflow-y: auto;
+}
 .button-list{
   display: flex;
   justify-content: flex-end;
@@ -77,4 +83,9 @@
 .product-card .product-price {
   color: #007bff;
   font-size: 1.1em;
+}
+
+login-button{
+  display: flex;
+  flex-direction: column;
 }
