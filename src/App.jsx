@@ -4,7 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import ProductAll from './page/ProductAll.jsx';
 import Login from './page/Login.jsx';
 import ProductDetail from './page/ProductDetail.jsx';
-import {useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
