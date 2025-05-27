@@ -89,3 +89,37 @@ login-button{
   display: flex;
   flex-direction: column;
 }
+
+.login-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 10px;
+  width: 300px;
+}
+
+.login-section p{
+  margin: 5px;
+}
+.login-section *{
+  width: inherit;
+}
+
+.login-section button{
+  width: auto;
+  margin-top: 10px;
+  background: #ff5f4e;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -8,7 +8,8 @@ import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo_black.png';
 import { AnimatePresence } from 'framer-motion'; // AnimatePresence는 Navbar에 유지
 
-import SearchModal from './SearchModal'; // 새 컴포넌트 import
+import SearchModal from './SearchModal';
+import {useNavigate} from 'react-router-dom'; // 새 컴포넌트 import
 
 const Navbar = () => {
   const menuList = [
@@ -17,15 +18,21 @@ const Navbar = () => {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false); // 검색창 열림/닫힘 상태
 
+const nav = useNavigate();
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
   };
+  const Login = () => {
+    nav('/hc_h_m/login');
+    console.log('Login');
+  }
 
   return (
       <div>
         <div className={'button-list'}>
-          <FontAwesomeIcon icon={faUser} />
-          <div>Login</div>
+          <div className="login-button" onClick={Login}>
+          <FontAwesomeIcon icon={faUser} />Login
+          </div>
           <button onClick={toggleSearch}>
             <FontAwesomeIcon icon={faSearch} />
           </button>

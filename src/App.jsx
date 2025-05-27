@@ -5,10 +5,11 @@ import ProductAll from './page/ProductAll.jsx';
 import Login from './page/Login.jsx';
 import ProductDetail from './page/ProductDetail.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useState} from 'react';
 
 function App() {
 
-
+  const [auth, setAuth] = useState(false);
 
   return (
       <>
