@@ -16,7 +16,7 @@ function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/hc_h_m/" element={<ProductAll/>}></Route>
-          <Route path="/hc_h_m/login" element={<Login/>}></Route>
+          <Route path="/hc_h_m/login" element={<Login setAuth={setAuth} auth={auth}/>}></Route>
           <Route path="/hc_h_m/product/:id" element={<ProductDetail/>}></Route>
         </Routes>
 

@@ -1,9 +1,11 @@
-import React, { useState } from 'react'; // useState 훅을 임포트합니다.
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom'; // useState 훅을 임포트합니다.
 
-const Login = () => {
+const Login = ({setAuth, auth}) => {
   // 폼 필드의 상태를 관리하기 위한 useState 훅을 사용합니다.
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+const nav = useNavigate();
 
   // 폼 제출(submit) 이벤트 핸들러
   const handleSubmit = (event) => {
@@ -12,7 +14,18 @@ const Login = () => {
     // 여기에 로그인 로직을 구현합니다.
     // 예를 들어, API 호출을 통해 이메일과 비밀번호를 서버로 전송합니다.
     console.log('로그인 시도:', { email, password });
+    setAuth(true);
   };
+
+  useEffect(() => {
+    if(auth) nav('/hc_h_m/');
+    console.log('Login.java: 10 ', auth);
+    return (
+        () => {
+          console.log('Login.java: 13 ');
+        }
+    )
+  }, [auth]);
 
   return (
       <div className="login-page">
