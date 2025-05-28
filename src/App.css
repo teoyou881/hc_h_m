@@ -123,3 +123,8 @@ login-button{
   border-radius: 5px;
   cursor: pointer;
 }
+
+.product-img{
+  display: flex;
+  justify-content: flex-end;
+}
