@@ -8,10 +8,10 @@ import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo_black.png';
 import { AnimatePresence } from 'framer-motion'; // AnimatePresence는 Navbar에 유지
 
-import SearchModal from './SearchModal';
+import SearchModal from '../component/SearchModal.jsx';
 import {useNavigate} from 'react-router-dom'; // 새 컴포넌트 import
 
-const Navbar = () => {
+const UserNavbar = () => {
   const menuList = [
     "WOMEN", "MEN", "JEWELRY", "GIFT", "COLLECTION"
   ];
@@ -58,4 +58,4 @@ const nav = useNavigate();
   );
 };
 
-export default Navbar;
+export default UserNavbar;

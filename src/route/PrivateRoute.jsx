@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductDetail from '../page/ProductDetail.jsx';
+import ProductDetail from '../page/user/ProductDetail.jsx';
 import {Navigate} from 'react-router-dom';
 
 const PrivateRoute = ({auth}) => {

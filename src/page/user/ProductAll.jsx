@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import ProductCard from '../component/ProductCard.jsx';
+import ProductCard from '../../component/ProductCard.jsx';
 import {Col, Container, Row} from 'react-bootstrap';
 
 const ProductAll = () => {
