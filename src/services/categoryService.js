@@ -1,7 +1,7 @@
 // src/services/categoryService.js
 import axios from 'axios';
 
-const VITE_ADMIN_URL = import.meta.env.VITE_ADMIN_URL;
+const VITE_ADMIN_CATEGORY_URL = import.meta.env.VITE_ADMIN_URL + '/category';
 
 // 인증 헤더 추가를 위한 헬퍼 함수
 const getConfig = () => {
@@ -19,8 +19,8 @@ const categoryService = {
   // 실제 데이터 배열을 반환합니다.
   getAllCategories: async () => {
     try {
-      const response = await axios.get(VITE_ADMIN_URL+ "/category");
-      console.log("categoryService.js: 23", response.data);
+      const response = await axios.get(VITE_ADMIN_CATEGORY_URL);
+
       return response.data; // 응답 데이터 반환
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -32,7 +32,8 @@ const categoryService = {
   // 생성된 카테고리 객체를 반환합니다.
   createCategory: async (categoryData) => {
     try {
-      const response = await axios.post(VITE_ADMIN_URL, categoryData);
+      const response = await axios.post(VITE_ADMIN_CATEGORY_URL, categoryData);
+
       return response.data; // 생성된 카테고리 데이터 반환
     } catch (error) {
       console.error("Error creating category:", error);
@@ -44,7 +45,7 @@ const categoryService = {
   // 수정된 카테고리 객체를 반환합니다.
   updateCategory: async (id, categoryData) => {
     try {
-      const response = await axios.put(`${VITE_ADMIN_URL}/${id}`, categoryData);
+      const response = await axios.put(`${VITE_ADMIN_CATEGORY_URL}/${id}`, categoryData);
       return response.data; // 수정된 카테고리 데이터 반환
     } catch (error) {
       console.error(`Error updating category with ID ${id}:`, error);
@@ -56,7 +57,7 @@ const categoryService = {
   // 삭제 성공 여부 또는 삭제된 데이터(서버 응답에 따라)를 반환합니다.
   deleteCategory: async (id) => {
     try {
-      const response = await axios.delete(`${VITE_ADMIN_URL}/${id}`);
+      const response = await axios.delete(`${VITE_ADMIN_CATEGORY_URL}/${id}`);
       // 서버 응답에 따라 달라질 수 있습니다.
       // 204 No Content인 경우 response.data는 비어있을 수 있습니다.
       // 여기서는 성공 상태 코드를 받았으므로 true를 반환하거나 response.data를 반환할 수 있습니다.
