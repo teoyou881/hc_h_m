@@ -22,6 +22,8 @@ import AdminOptionTypeListJsx
 import AdminUserListPage from './page/admin/users/AdminUserListPage.jsx';
 import AdminOptionValueList
   from './page/admin/options/AdminOptionValueList.jsx';
+import AdminOptionTypeList
+  from './page/admin/options/AdminOptionTypeList.jsx.jsx';
 
 function App() {
   // auth는 로그인 여부, userRole은 사용자의 권한 (예: 'USER', 'ADMIN', null)
@@ -54,7 +56,7 @@ function App() {
             <Route path="products/new" element={<AdminProductCreatePage />} />
             <Route path="products/edit/:id" element={<AdminProductEditPage />} />
             <Route path="categories" element={<AdminCategoryPage />} />
-            <Route path="options/types" element={<AdminOptionTypeListJsx />} />
+            <Route path="options/types" element={<AdminOptionTypeList />} />
             <Route path="options/values" element={<AdminOptionValueList />} />
             <Route path="users" element={<AdminUserListPage />} />
             {/*<Route path="users/roles" element={<AdminUserRolePage />} />*/}
