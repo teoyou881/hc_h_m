@@ -11,7 +11,7 @@ function AdminOptionValueList() {
   const [optionTypes, setOptionTypes] = useState([]); // 옵션 타입 드롭다운을 위한 데이터
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentOptionValue, setCurrentOptionValue] = useState({ id: null, name: '', displayOrder: 0, optionTypeId: null });
+  const [currentOptionValue, setCurrentOptionValue] = useState({ id: null, name: '', displayOrder: 0, optionGroupId: null });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -25,7 +25,7 @@ function AdminOptionValueList() {
       setError(null);
       const response = await optionValueService.getAllOptionValues(); // 모든 옵션 값 불러오기
       const fetchedOptionValues = Array.isArray(response.data) ? response.data : [];
-      setOptionValues(fetchedOptionValues.sort((a, b) => a.displayOrder - b.displayOrder));
+      setOptionValues(fetchedOptionValues.sort((a, b) => a.optionGroupId - b.optionGroupId));
     } catch (err) {
       console.error('Failed to fetch option values:', err);
       setError('옵션 값 목록을 불러오는데 실패했습니다.');
@@ -48,7 +48,7 @@ function AdminOptionValueList() {
 
   const handleShowCreateModal = () => {
     setIsEditing(false);
-    setCurrentOptionValue({ id: null, name: '', displayOrder: 0, optionTypeId: null });
+    setCurrentOptionValue({ id: null, name: '', displayOrder: 0, optionGroupId: null });
     setError(null);
     setShowModal(true);
   };
@@ -70,8 +70,8 @@ function AdminOptionValueList() {
     const { name, value } = e.target;
     setCurrentOptionValue((prev) => ({
       ...prev,
-      // optionTypeId와 displayOrder는 숫자로 변환, 나머지는 그대로
-      [name]: (name === 'optionTypeId' || name === 'displayOrder') ? parseInt(value, 10) || 0 : value,
+      // optionGroupId와 displayOrder는 숫자로 변환, 나머지는 그대로
+      [name]: (name === 'optionGroupId' || name === 'displayOrder') ? parseInt(value, 10) || 0 : value,
     }));
   };
 
@@ -84,7 +84,7 @@ function AdminOptionValueList() {
       setError("옵션 값 이름은 필수입니다.");
       return;
     }
-    if (!currentOptionValue.optionTypeId) {
+    if (!currentOptionValue.optionGroupId) {
       setError("옵션 타입은 필수입니다.");
       return;
     }
@@ -94,14 +94,14 @@ function AdminOptionValueList() {
         await optionValueService.updateOptionValue(currentOptionValue.id, {
           name: currentOptionValue.name,
           displayOrder: currentOptionValue.displayOrder,
-          optionTypeId: currentOptionValue.optionTypeId,
+          optionGroupId: currentOptionValue.optionGroupId,
         });
         setSuccessMessage('옵션 값이 성공적으로 수정되었습니다.');
       } else {
         await optionValueService.createOptionValue({
           name: currentOptionValue.name,
           displayOrder: currentOptionValue.displayOrder,
-          optionTypeId: currentOptionValue.optionTypeId,
+          optionGroupId: currentOptionValue.optionGroupId,
         });
         setSuccessMessage('옵션 값이 성공적으로 추가되었습니다.');
       }
@@ -141,8 +141,8 @@ function AdminOptionValueList() {
   };
 
   // 옵션 타입 ID를 이름으로 변환하는 헬퍼 함수
-  const getOptionTypeName = (optionTypeId) => {
-    const type = optionTypes.find(type => type.id === optionTypeId);
+  const getOptionTypeName = (optionGroupId) => {
+    const type = optionTypes.find(type => type.id === optionGroupId);
     return type ? type.name : '알 수 없음';
   };
 
@@ -173,11 +173,11 @@ function AdminOptionValueList() {
               optionValues.map((value) => (
                   <tr key={value.id}>
                     <td>{value.id}</td>
-                    <td>{getOptionTypeName(value.optionTypeId)}</td> {/* 옵션 타입 이름 표시 */}
+                    <td>{getOptionTypeName(value.optionGroupId)}</td> {/* 옵션 타입 이름 표시 */}
                     <td>{value.name}</td>
                     <td>{value.displayOrder}</td>
-                    <td>{new Date(value.createdAt).toLocaleDateString()}</td>
-                    <td>{new Date(value.updatedAt).toLocaleDateString()}</td>
+                    <td>{new Date(value.createdDate).toLocaleDateString()}</td>
+                    <td>{new Date(value.lastModifiedDate).toLocaleDateString()}</td>
                     <td>
                       <Button
                           variant="info"
@@ -220,8 +220,8 @@ function AdminOptionValueList() {
               <Form.Group className="mb-3">
                 <Form.Label>옵션 타입</Form.Label>
                 <Form.Select
-                    name="optionTypeId"
-                    value={currentOptionValue.optionTypeId || ''} // null일 경우 빈 문자열로
+                    name="optionGroupId"
+                    value={currentOptionValue.optionGroupId || ''} // null일 경우 빈 문자열로
                     onChange={handleChange}
                     required
                     disabled={isEditing} // 수정 모드에서는 옵션 타입 변경 불가 (일반적인 정책)
