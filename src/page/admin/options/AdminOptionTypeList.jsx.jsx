@@ -4,6 +4,7 @@ import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 // 옵션 타입 관련 API 서비스를 가정
 import optionTypeService from '../../../services/optionTypeService'; // 실제 경로에 맞게 수정해주세요
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import {filter} from 'framer-motion/m';
 
 function AdminOptionTypeList() {
   const [optionTypes, setOptionTypes] = useState([]);
@@ -83,20 +84,13 @@ function AdminOptionTypeList() {
         await optionTypeService.createOptionType({
           name: currentOptionType.name,
           displayOrder: currentOptionType.displayOrder, // 백엔드에서 자동 부여될 수 있음
-        });
+        }, optionTypes);
         setSuccessMessage('옵션 타입이 성공적으로 추가되었습니다.');
       }
       fetchOptionTypes(); // 목록 새로고침
       handleCloseModal(); // 모달 닫기
     } catch (err) {
-      console.error('Failed to save option type:', err);
-      let errorMessage = '옵션 타입 저장에 실패했습니다.';
-      if (err.response && err.response.data && err.response.data.message) {
-        errorMessage = err.response.data.message;
-      } else if (err.response && err.response.status === 409) {
-        errorMessage = "이미 같은 이름의 옵션 타입이 존재합니다.";
-      }
-      setError(errorMessage);
+      setError(err.message);
     }
   };
 
@@ -149,8 +143,8 @@ function AdminOptionTypeList() {
                     <td>{type.id}</td>
                     <td>{type.name}</td>
                     <td>{type.displayOrder}</td>
-                    <td>{new Date(type.createdAt).toLocaleDateString()}</td>
-                    <td>{new Date(type.updatedAt).toLocaleDateString()}</td>
+                    <td>{new Date(type.createdDate).toLocaleDateString()}</td>
+                    <td>{new Date(type.lastModifiedDate).toLocaleDateString()}</td>
                     <td>
                       <Button
                           variant="info"
@@ -207,7 +201,7 @@ function AdminOptionTypeList() {
                     name="displayOrder"
                     value={currentOptionType.displayOrder}
                     onChange={handleChange}
-                    min="0"
+                    min="1"
                 />
                 <Form.Text className="text-muted">
                   정렬 순서는 옵션 타입의 표시 순서를 결정합니다.
