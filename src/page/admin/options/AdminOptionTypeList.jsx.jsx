@@ -4,7 +4,6 @@ import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 // 옵션 타입 관련 API 서비스를 가정
 import optionTypeService from '../../../services/optionTypeService'; // 실제 경로에 맞게 수정해주세요
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import {filter} from 'framer-motion/m';
 
 function AdminOptionTypeList() {
   const [optionTypes, setOptionTypes] = useState([]);
