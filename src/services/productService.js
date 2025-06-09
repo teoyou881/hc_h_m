@@ -1,10 +1,10 @@
 import axios from 'axios';
-const VITE_ADMIN_PRODCUT_URL = import.meta.env.VITE_ADMIN_URL + '/product';
+const VITE_ADMIN_PRODUCT_URL = import.meta.env.VITE_ADMIN_URL + '/product';
 const VITE_ADMIN_URL = import.meta.env.VITE_ADMIN_URL;
 
 // Axios 인스턴스 생성 (필요에 따라 인증 토큰 등 설정 가능)
 const api = axios.create({
-  baseURL: VITE_ADMIN_PRODCUT_URL,
+  baseURL: VITE_ADMIN_PRODUCT_URL,
   headers: {
     'Content-Type': 'application/json',
     // 'Authorization': `Bearer ${localStorage.getItem('token')}` // 인증 토큰이 있다면 추가
@@ -17,7 +17,7 @@ const productService = {
   // ----------------------------------------------------
   getAllCategories: async () => {
     try {
-      const response = await api.get(VITE_ADMIN_URL+'/category'); // 평면 리스트를 가져오는 API 호출
+      const response = await axios.get(VITE_ADMIN_URL+'/category'); // 평면 리스트를 가져오는 API 호출
       return response.data;
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -66,6 +66,16 @@ const productService = {
     }
   },
 
+  getProducts:async ()=>{
+    try {
+      const response = await axios.get(VITE_ADMIN_URL + '/product');
+      console.log("productService.js: 72", response.data);
+      return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+  }
 };
 
 export default productService;
