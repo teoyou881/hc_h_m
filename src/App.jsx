@@ -24,6 +24,8 @@ import AdminOptionValueList
   from './page/admin/options/AdminOptionValueList.jsx';
 import AdminOptionTypeList
   from './page/admin/options/AdminOptionTypeList.jsx.jsx';
+import AdminSkuListPage from './page/admin/products/AdminSkuListPage.jsx';
+import AdminSkuPage from './page/admin/AdminSkuPage.jsx';
 
 function App() {
   // auth는 로그인 여부, userRole은 사용자의 권한 (예: 'USER', 'ADMIN', null)
@@ -53,7 +55,9 @@ function App() {
           <Route  path="/hc_h_m/admin/*" element={<AdminLayout />}>
             <Route index element={<AdminHome />} /> {/* /hc_h_m/admin */}
             <Route path="products" element={<AdminProductListPage />} />
+            <Route path="products/:productId/sku" element={<AdminSkuListPage />} />
             <Route path="products/new" element={<AdminProductCreatePage />} />
+            <Route path="sku/:skuId" element={<AdminSkuPage />} />
             <Route path="products/edit/:id" element={<AdminProductEditPage />} />
             <Route path="categories" element={<AdminCategoryPage />} />
             <Route path="options/types" element={<AdminOptionTypeList />} />
