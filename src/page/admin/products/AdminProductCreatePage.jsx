@@ -1,6 +1,6 @@
 // src/pages/AdminProductCreatePage.jsx
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container, Row, Col, Form, Button, Alert, Card,
   ListGroup, InputGroup, Dropdown
