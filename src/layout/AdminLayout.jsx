@@ -43,7 +43,7 @@ function AdminLayout() {
               {/* 회원 관리 하위 메뉴 (예시) */}
               <hr />
               <Nav.Item>
-                <Nav.Link as={Link} to="/hc_h_m/admin/users" active={location.pathname.startsWith('/hc_h_m/admin/users')}>
+                <Nav.Link as={Link} to="/hc_h_m/admin/users" active={location.pathname===('/hc_h_m/admin/users')}>
                   전체 회원
                 </Nav.Link>
               </Nav.Item>
