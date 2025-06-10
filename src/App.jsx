@@ -26,7 +26,7 @@ import AdminOptionTypeList
   from './page/admin/options/AdminOptionTypeList.jsx.jsx';
 import AdminSkuListPage from './page/admin/products/AdminSkuListPage.jsx';
 import AdminSkuPage from './page/admin/AdminSkuPage.jsx';
-import RegisterForm from './page/user/RegisterForm.jsx';
+import RegisterForm from './page/auth/RegisterForm.jsx';
 
 function App() {
   // auth는 로그인 여부, userRole은 사용자의 권한 (예: 'USER', 'ADMIN', null)
