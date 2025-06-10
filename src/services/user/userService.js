@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const VITE_ADMIN_URL = import.meta.env.VITE_USER_URL;
+const VITE_USER_URL = import.meta.env.VITE_USER_URL;
 /**
  * 사용자 관련 비즈니스 로직을 처리하는 서비스 계층
  */
@@ -12,7 +12,7 @@ const userService = {
    */
   async getAllUsers() {
     try {
-      const response = axios.get(VITE_ADMIN_URL+'/users');
+      const response = await axios.get(VITE_USER_URL + '/users');
       return response.data;
     } catch (error) {
       console.error('[UserService Error] Error getting all users:', error.message);
@@ -27,10 +27,10 @@ const userService = {
    */
   async getUserById(userId) {
     try {
-      const response = axios.get(VITE_ADMIN_URL+`/users/${userId}`);
+      const response = axios.get(VITE_USER_URL+`/user/${userId}`);
       // 보안을 위해 비밀번호 등 민감 정보는 제거하고 반환하는 것이 좋습니다.
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
+      console.log("userService.js: 32", response.data);
+      return response.data;
     } catch (error) {
       console.error(`[UserService Error] Error getting user by ID ${userId}:`, error.message);
       throw new Error('Failed to retrieve user.');
@@ -44,11 +44,8 @@ const userService = {
    */
   async getUserByEmail(email) {
     try {
-      // 실제 데이터베이스 로직: return await User.findOne({ email });
-      console.log(`[UserService] Fetching user with email: ${email} (simulated)...`);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      const user = users.find(u => u.email === email);
-      return user || null; // 로그인 시 비밀번호 확인을 위해 전체 객체 반환
+      const response = axios.get(VITE_USER_URL+`/user/${email}`);
+      return response.data || null; // 로그인 시 비밀번호 확인을 위해 전체 객체 반환
     } catch (error) {
       console.error(`[UserService Error] Error getting user by email ${email}:`, error.message);
       throw new Error('Failed to retrieve user by email.');
@@ -63,30 +60,9 @@ const userService = {
    */
   async createUser(userData) {
     try {
-      // 실제 데이터베이스 로직:
-      // const hashedPassword = await bcrypt.hash(userData.password, 10);
-      // const newUser = new User({ ...userData, password: hashedPassword });
-      // await newUser.save();
-      console.log('[UserService] Creating new user (simulated):', userData.email);
-      await new Promise(resolve => setTimeout(resolve, 500));
 
-      // 시뮬레이션: 중복 이메일 체크
-      if (users.some(u => u.email === userData.email)) {
-        throw new Error('Email already registered.');
-      }
-
-      const newUser = {
-        id: (users.length + 1).toString(), // 간단한 ID 생성
-        email: userData.email,
-        username: userData.username || 'NewUser',
-        role: userData.role || 'USER',
-        // 비밀번호는 실제 DB에는 해싱해서 저장하지만, 시뮬레이션에서는 저장하지 않음.
-        // password: hashedPassword,
-      };
-      users.push(newUser);
-      // 보안을 위해 비밀번호 등 민감 정보는 제거하고 반환
-      const { password, ...userWithoutPassword } = newUser;
-      return userWithoutPassword;
+      const response = axios.post(VITE_USER_URL+`/user`, userData);
+      return response.data;
     } catch (error) {
       console.error('[UserService Error] Error creating user:', error.message);
       throw error; // 에러를 호출자에게 다시 던짐
@@ -100,24 +76,7 @@ const userService = {
    * @returns {Object|null} 업데이트된 사용자 객체 또는 null
    */
   async updateUser(userId, updateData) {
-    try {
-      // 실제 데이터베이스 로직: return await User.findByIdAndUpdate(userId, updateData, { new: true });
-      console.log(`[UserService] Updating user with ID: ${userId} (simulated)...`);
-      await new Promise(resolve => setTimeout(resolve, 300));
 
-      const userIndex = users.findIndex(u => u.id === userId);
-      if (userIndex === -1) {
-        return null;
-      }
-      const updatedUser = { ...users[userIndex], ...updateData };
-      users[userIndex] = updatedUser;
-      // 보안을 위해 비밀번호 등 민감 정보는 제거하고 반환
-      const { password, ...userWithoutPassword } = updatedUser;
-      return userWithoutPassword;
-    } catch (error) {
-      console.error(`[UserService Error] Error updating user ${userId}:`, error.message);
-      throw new Error('Failed to update user.');
-    }
   },
 
   /**
@@ -126,19 +85,7 @@ const userService = {
    * @returns {boolean} 삭제 성공 여부
    */
   async deleteUser(userId) {
-    try {
-      // 실제 데이터베이스 로직: const result = await User.findByIdAndDelete(userId); return !!result;
-      console.log(`[UserService] Deleting user with ID: ${userId} (simulated)...`);
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      const initialLength = users.length;
-      users = users.filter(u => u.id !== userId);
-      return users.length < initialLength; // 길이가 줄었으면 삭제 성공
-    } catch (error) {
-      console.error(`[UserService Error] Error deleting user ${userId}:`, error.message);
-      throw new Error('Failed to delete user.');
-    }
-  },
+  }
 };
 
-module.exports = userService;
+export default userService;
