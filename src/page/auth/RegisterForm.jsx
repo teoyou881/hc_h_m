@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userService from '../../services/user/userService.js';
 // Uncomment to use the 'axios' library if installed
 // import axios from 'axios';
 
@@ -35,10 +36,8 @@ function RegisterForm() {
 
     setLoading(true);
 
-    try {
-      // Replace with your actual backend API endpoint.
-      // const API_URL = 'http://localhost:8080/api/auth/register'; // Example API URL
 
+    try {
       const userData = {
         email: email,
         password: password,
@@ -47,27 +46,17 @@ function RegisterForm() {
         // 'role' can often be set with a default value (e.g., USER) on the backend,
         // so it's not sent from here, or sent explicitly like: role: 'USER'
       };
+      console.log("RegisterForm.jsx: 49", userData);
+      const user = userService.createUser(userData);
 
-      // Actual API call (example using axios, requires axios to be installed)
-      // const response = await axios.post(API_URL, userData);
-      // console.log('Registration successful:', response.data);
-      // setSuccess('Registration completed successfully! Redirecting to login page.');
-      // setTimeout(() => {
-      //   navigate('/hc_h_m/login'); // Redirect to login page after successful registration
-      // }, 2000); // Redirect after 2 seconds
-
-      // ✨ Simulation code since no actual API call is present (2-second delay)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Registration attempt (simulation):', userData);
+      console.log('Registration attempt (simulation):', user);
       setSuccess('Registration completed successfully! (Simulation) Redirecting to login page.');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
       setUsername('');
       setPhoneNumber('');
-      setTimeout(() => {
-        navigate('/hc_h_m/login'); // Redirect to login page after simulation
-      }, 2000);
+      navigate('/hc_h_m/login'); // Redirect to login page after simulation
 
     } catch (err) {
       console.error('Registration failed:', err);
