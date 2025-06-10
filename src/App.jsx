@@ -26,11 +26,12 @@ import AdminOptionTypeList
   from './page/admin/options/AdminOptionTypeList.jsx.jsx';
 import AdminSkuListPage from './page/admin/products/AdminSkuListPage.jsx';
 import AdminSkuPage from './page/admin/AdminSkuPage.jsx';
+import RegisterForm from './page/user/RegisterForm.jsx';
 
 function App() {
   // auth는 로그인 여부, userRole은 사용자의 권한 (예: 'USER', 'ADMIN', null)
   const [auth, setAuth] = useState(false);
-  const [userRole, setUserRole] = useState("ADMIN"); // 초기값은 null 또는 'GUEST'
+  const [userRole, setUserRole] = useState("USER"); // 초기값은 null 또는 'GUEST'
   const location = useLocation(); // 현재 경로를 알기 위해 사용
 
   // 현재 경로가 어드민 페이지인지 확인하는 헬퍼 함수
@@ -49,6 +50,7 @@ function App() {
           <Route path="/hc_h_m/" element={<ProductAll/>}></Route>
           {/* Login 컴포넌트에 setUserRole 함수 전달 */}
           <Route path="/hc_h_m/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
+          <Route path="/hc_h_m/register" element={<RegisterForm />}></Route>
           <Route path="/hc_h_m/search" element={<Search/>}></Route>
           <Route path="/hc_h_m/product/:id" element={<ProductDetail/>}></Route>
 
