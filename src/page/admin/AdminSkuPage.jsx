@@ -24,8 +24,8 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import imageService from '../../services/imageService.js';
-import skuService from '../../services/skuService.js';
+import imageService from '../../services/admin/ImageService.js';
+import skuService from '../../services/admin/SkuService.js';
 
 // 임시 이미지 URL 생성 함수 (파일 객체에서 미리보기를 위해)
 const createObjectURL = (file) => (window.URL ? window.URL.createObjectURL(file) : null);

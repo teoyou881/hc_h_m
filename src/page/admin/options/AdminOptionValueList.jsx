@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 // 옵션 값 및 옵션 타입 관련 API 서비스를 가정
-import optionValueService from '../../../services/optionValueService'; // 실제 경로에 맞게 수정해주세요
-import optionTypeService from '../../../services/optionTypeService'; // 실제 경로에 맞게 수정해주세요
+import optionValueService from '../../../services/admin/optionValueService.js'; // 실제 경로에 맞게 수정해주세요
+import optionTypeService from '../../../services/admin/optionTypeService.js'; // 실제 경로에 맞게 수정해주세요
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 function AdminOptionValueList() {

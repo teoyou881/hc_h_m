@@ -5,7 +5,7 @@ import {
   Container, Row, Col, Table, Button, Form, Pagination, Alert, Image, InputGroup
 } from 'react-bootstrap'; // React Bootstrap 컴포넌트 임포트
 
-import productService from '../../../services/productService.js';
+import productService from '../../../services/admin/productService.js';
 
 function AdminProductListPage() {
   const navigate = useNavigate();

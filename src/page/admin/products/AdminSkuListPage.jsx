@@ -4,7 +4,7 @@ import {
   Alert, Button, Col, Container, Form, Modal, Row, Table,Image
 } from 'react-bootstrap';
 
-import skuService from '../../../services/skuService.js';
+import skuService from '../../../services/admin/SkuService.js';
 import {FaStar} from 'react-icons/fa'; // SKU 서비스 임포트
 // productService는 더 이상 상품명 조회를 위해 사용하지 않으므로 임포트 제거
 

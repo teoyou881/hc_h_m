@@ -6,7 +6,7 @@ import {
   ListGroup, InputGroup, Dropdown
 } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
-import productService from '../../../services/productService.js'; // ⭐ 경로 확인
+import productService from '../../../services/admin/productService.js'; // ⭐ 경로 확인
 import { isEqualAsNumber } from '../../../util/util.js'; // ⭐ 경로 확인
 
 const AdminProductCreatePage = () => {

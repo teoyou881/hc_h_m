@@ -1,7 +1,7 @@
 // src/pages/admin/categories/AdminCategoryPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
-import categoryService from '../../../services/categoryService'; // 경로 확인
+import categoryService from '../../../services/admin/categoryService.js'; // 경로 확인
 
 function AdminCategoryPage() {
   const [categories, setCategories] = useState([]);
