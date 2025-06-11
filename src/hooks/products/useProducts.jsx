@@ -22,6 +22,7 @@ export const useProductById = (productId) => {
     queryFn: () => productService.getProductById(productId), // productId를 인자로 받는 함수
     enabled: !!productId, // productId가 있을 때만 쿼리 실행
     staleTime: 5 * 60 * 1000,
+    gcTime:1000*60*10,
     // onError, onSuccess 등 추가 옵션 가능
   });
 };
