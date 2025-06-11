@@ -15,8 +15,8 @@ const AdminProductCreatePage = () => {
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
-
-  // ⭐ 이미지 관련 상태 제거 (productImages, productImagePreviews, selectedThumbnailIndex)
+  // ⭐ 새로운 상태: 상품 색상 (콤마로 구분된 문자열)
+  const [productColors, setProductColors] = useState('');
 
   // 카테고리 목록 상태
   const [categories, setCategories] = useState([]);
@@ -30,8 +30,6 @@ const AdminProductCreatePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
-  // ⭐ fileInputRef 제거
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +49,6 @@ const AdminProductCreatePage = () => {
     };
     fetchData();
   }, []);
-
-  // ⭐ handleImageChange 함수 제거
-  // ⭐ handleThumbnailSelect 함수 제거
 
   // 백엔드에서 불러온 옵션 그룹을 상품에 추가하는 핸들러 (Async로 변경)
   const handleAddSelectedOptionGroup = async (groupId) => {
@@ -144,12 +139,13 @@ const AdminProductCreatePage = () => {
       setError("상품명, 가격, 카테고리는 필수 입력 항목입니다.");
       return;
     }
+    // ⭐ 상품 색상 입력 검증 및 파싱
+    const colorsArray = productColors.split(',').map(color => color.trim()).filter(color => color !== '');
+    if (colorsArray.length === 0) {
+      setError("상품 색상을 최소 한 가지 이상 입력해야 합니다. (예: white, black, red)");
+      return;
+    }
 
-    // ⭐ 이미지 필드 삭제로 인해 이 유효성 검사도 필요 없습니다.
-    // if (productImages.length === 0) {
-    //   setError("상품 이미지를 최소 한 장 이상 등록해야 합니다.");
-    //   return;
-    // }
 
     setLoading(true);
     setError('');
@@ -160,6 +156,8 @@ const AdminProductCreatePage = () => {
       price: Number(price),
       description: description,
       categoryId: selectedCategoryId,
+      // ⭐ 색상 배열을 productData에 추가
+      colors: colorsArray,
       optionGroups: selectedOptionGroups.map(group => ({
         id: group.id,
         name: group.name,
@@ -180,6 +178,7 @@ const AdminProductCreatePage = () => {
       setPrice('');
       setDescription('');
       setSelectedCategoryId('');
+      setProductColors(''); // ⭐ 색상 필드 초기화
       setSelectedOptionGroups([]);
     } catch (err) {
       console.error("Failed to create product:", err);
@@ -217,6 +216,18 @@ const AdminProductCreatePage = () => {
                     required
                 />
               </Form.Group>
+              {/* ⭐ 새로운 색상 입력 필드 추가 */}
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="productColors">상품 색상 (콤마로 구분, 예: white, black, red)</Form.Label>
+                <Form.Control
+                    type="text"
+                    id="productColors"
+                    value={productColors}
+                    onChange={(e) => setProductColors(e.target.value)}
+                    placeholder="white, black, brown"
+                />
+              </Form.Group>
+              {/* ⭐ 기존 가격 입력 필드는 그대로 둠 */}
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="price">가격</Form.Label>
                 <InputGroup>
@@ -256,7 +267,6 @@ const AdminProductCreatePage = () => {
                   ))}
                 </Form.Select>
               </Form.Group>
-              {/* ⭐ 상품 이미지 업로드 관련 Form.Group 제거 */}
             </Card.Body>
           </Card>
 
@@ -312,53 +322,8 @@ const AdminProductCreatePage = () => {
                                   <ListGroup.Item className="text-muted">옵션 값이 없습니다.</ListGroup.Item>
                               )}
                             </ListGroup>
-                            {/*todo 값 추가*/}
-                            {/*<InputGroup>
-                              <Form.Control
-                                  type="text"
-                                  placeholder="옵션 값 이름 (예: 빨강)"
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                      e.preventDefault();
-                                      const extraPriceInput = e.target.nextElementSibling?.nextElementSibling;
-                                      const priceValue = extraPriceInput ? extraPriceInput.value : '';
-                                      handleAddOptionValue(group.id, e.target.value, priceValue);
-                                      e.target.value = '';
-                                      if (extraPriceInput) extraPriceInput.value = '0';
-                                    }
-                                  }}
-                              />
-                              <InputGroup.Text>추가 가격:</InputGroup.Text>
-                              <Form.Control
-                                  type="number"
-                                  placeholder="0"
-                                  defaultValue={0}
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                      e.preventDefault();
-                                      const valueNameInput = e.target.previousElementSibling?.previousElementSibling;
-                                      const nameValue = valueNameInput ? valueNameInput.value : '';
-                                      handleAddOptionValue(group.id, nameValue, e.target.value);
-                                      e.target.value = '0';
-                                      if (valueNameInput) valueNameInput.value = '';
-                                    }
-                                  }}
-                              />
-
-                              <Button
-                                  variant="outline-secondary"
-                                  onClick={(e) => {
-                                    const inputs = e.currentTarget.parentNode.querySelectorAll('input[type="text"], input[type="number"]');
-                                    const valueName = inputs[0].value;
-                                    const extraPrice = inputs[1].value;
-                                    handleAddOptionValue(group.id, valueName, extraPrice);
-                                    inputs[0].value = '';
-                                    inputs[1].value = '0';
-                                  }}
-                              >
-                                값 추가
-                              </Button>
-                            </InputGroup>*/}
+                            {/* todo 값 추가 */}
+                            {/* 이전 주석 처리된 부분은 그대로 유지 */}
                           </Card.Body>
                         </Card>
                     ))}
