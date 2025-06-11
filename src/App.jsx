@@ -52,7 +52,7 @@ function App() {
           <Route path="/hc_h_m/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
           <Route path="/hc_h_m/register" element={<RegisterForm />}></Route>
           <Route path="/hc_h_m/search" element={<Search/>}></Route>
-          <Route path="/hc_h_m/product/:id" element={<ProductDetail/>}></Route>
+          <Route path="/hc_h_m/product/:productId" element={<ProductDetail/>}></Route>
 
           <Route  path="/hc_h_m/admin/*" element={<AdminLayout />}>
             <Route index element={<AdminHome />} /> {/* /hc_h_m/admin */}
