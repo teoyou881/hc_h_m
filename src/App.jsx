@@ -3,7 +3,7 @@ import UserNavbar from './layout/UserNavbar.jsx'; // 사용자용 UserNavbar
 import AdminNavbar from './layout/AdminNavbar.jsx'; // 어드민용 UserNavbar
 
 import {Route, Routes, useLocation} from 'react-router-dom';
-import ProductAll from './page/user/ProductAll.jsx';
+import HomePage from './page/user/HomePage.jsx';
 import Login from './page/auth/Login.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useState, useEffect} from 'react'; // useEffect 추가
@@ -27,6 +27,7 @@ import AdminOptionTypeList
 import AdminSkuListPage from './page/admin/products/AdminSkuListPage.jsx';
 import AdminSkuPage from './page/admin/AdminSkuPage.jsx';
 import RegisterForm from './page/auth/RegisterForm.jsx';
+import UserLayout from './layout/UserLayout.jsx';
 
 function App() {
   // auth는 로그인 여부, userRole은 사용자의 권한 (예: 'USER', 'ADMIN', null)
@@ -39,24 +40,18 @@ function App() {
 
   return (
       <>
-        {/* userRole 상태에 따라 다른 UserNavbar 렌더링 */}
-        {userRole === 'ADMIN' ? (
-            <AdminNavbar  />
-        ) : (
-            <UserNavbar  />
-        )}
-
         <Routes>
-          <Route path="/hc_h_m/" element={<ProductAll/>}></Route>
-          {/* Login 컴포넌트에 setUserRole 함수 전달 */}
-          <Route path="/hc_h_m/login" element={<Login auth={auth} setAuth={setAuth}/>}></Route>
-          <Route path="/hc_h_m/register" element={<RegisterForm />}></Route>
-          <Route path="/hc_h_m/search" element={<Search/>}></Route>
-          <Route path="/hc_h_m/product/:productId" element={<ProductDetail/>}></Route>
+          <Route path="/*" element={<UserLayout />}> {/* 이제 /hc_h_m/ */}
+            <Route index element={<HomePage />}></Route> {/* 이제 /hc_h_m/ */}
+            <Route path="login" element={<Login auth={auth} setAuth={setAuth} />}></Route> {/* 이제 /hc_h_m/login */}
+            <Route path="register" element={<RegisterForm />}></Route> {/* 이제 /hc_h_m/register */}
+            <Route path="search" element={<Search />}></Route> {/* 이제 /hc_h_m/search */}
+            <Route path="product/:productId" element={<ProductDetail />}></Route> {/* 이제 /hc_h_m/product/:productId */}
+          </Route>
 
-          <Route  path="/hc_h_m/admin/*" element={<AdminLayout />}>
+          <Route path="/admin/*" element={<AdminLayout />}> {/* 이제 /hc_h_m/admin/* */}
             <Route index element={<AdminHome />} /> {/* /hc_h_m/admin */}
-            <Route path="products" element={<AdminProductListPage />} />
+            <Route path="products" element={<AdminProductListPage />} /> {/* /hc_h_m/admin/products */}
             <Route path="products/:productId/sku" element={<AdminSkuListPage />} />
             <Route path="products/new" element={<AdminProductCreatePage />} />
             <Route path="sku/:skuId" element={<AdminSkuPage />} />
@@ -65,7 +60,6 @@ function App() {
             <Route path="options/types" element={<AdminOptionTypeList />} />
             <Route path="options/values" element={<AdminOptionValueList />} />
             <Route path="users" element={<AdminUserListPage />} />
-            {/*<Route path="users/roles" element={<AdminUserRolePage />} />*/}
           </Route>
         </Routes>
       </>

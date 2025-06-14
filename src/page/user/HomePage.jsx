@@ -1,14 +1,14 @@
-// src/pages/ProductAll.jsx
+// src/pages/HomePage.jsx
 import React from 'react';
 import ProductCard from '../../component/ProductCard.jsx';
 // Bootstrap 컴포넌트 (Col, Container, Row)는 더 이상 필요 없으므로 제거
 // import { Col, Container, Row } from 'react-bootstrap';
 import { useAllProducts } from '../../hooks/products/useProducts.jsx'; // useProducts.jsx -> useProducts.jsx로 변경
 
-const ProductAll = () => {
+const HomePage = () => {
   const { data: productList, isLoading, isError, error } = useAllProducts();
 
-  console.log("ProductAll.jsx: Data from useAllProducts", productList);
+  console.log("HomePage.jsx: Data from useAllProducts", productList);
 
   // 로딩 상태 처리
   if (isLoading) {
@@ -56,4 +56,4 @@ const ProductAll = () => {
   );
 };
 
-export default ProductAll;
+export default HomePage;
