@@ -23,7 +23,7 @@ const nav = useNavigate();
     setIsSearchOpen(!isSearchOpen);
   };
   const Login = () => {
-    nav('/hc_h_m/login');
+    nav('/login');
     console.log('Login');
   }
 
