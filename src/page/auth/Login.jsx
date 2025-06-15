@@ -1,33 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../util/api.js'; // 생성한 apiClient 임포트
+import { useUserStore } from '../../store/useUserStore.js'; // Zustand UserStore 임포트
 
-const Login = ({ setAuth, auth }) => {
-  // State hooks for form fields
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const nav = useNavigate(); // Initialize useNavigate hook
+  const nav = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission (page reload)
+  // Zustand Store의 login 액션 가져오기
+  const loginUser = useUserStore((state) => state.login);
+  // 현재 로그인 상태 (Zustand에서도 가져올 수 있으나, props로 전달되는 auth도 활용)
+  const isAuthenticated = useUserStore((state) => state.user !== null); // Zustand의 user 상태로 로그인 여부 판단
 
-    // Implement your login logic here.
-    // For example, send email and password to the server via an API call.
-    console.log('Attempting login:', { email, password });
-    setAuth(true); // Simulate successful authentication
+  // handle submit
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // 로그인 API 호출
+      // 백엔드의 로그인 엔드포인트에 따라 URL과 데이터 구조를 조정하세요.
+      const response = await apiClient.post('/login', { // 예시 URL
+        email: email,
+        password: password,
+      });
+
+      // 백엔드에서 응답으로 사용자 정보와 역할(role)을 JSON 본문에 담아준다고 가정
+      // JWT 토큰은 HttpOnly 쿠키에 담겨 자동으로 클라이언트에게 전달된다고 가정
+
+
+      //todo user 정보 받아오기.
+      console.log("Login.jsx: 30", response);
+      const { user } = response.data; // 백엔드 응답 예시: { user: { id, username, ... }, role: 'ADMIN' }
+
+      // Zustand Store에 사용자 정보 및 역할 저장
+      loginUser(user);
+
+      // App.js의 auth 상태도 업데이트 (필요하다면)
+      nav('//'); // 로그인 성공 후 홈 페이지로 이동
+
+    } catch (error) {
+      console.error('Login failed:', error.response ? error.response.data : error.message);
+      // 로그인 실패 시 사용자에게 메시지 표시 등의 에러 처리 로직 추가
+      alert('로그인 실패: ' + (error.response?.data?.message || '서버 오류'));
+    }
   };
 
-  // Effect hook to navigate after successful authentication
   useEffect(() => {
-    if (auth) {
-      nav('/hc_h_m/'); // Navigate to home page if authenticated
+    // 이미 로그인되어 있다면 (Zustand의 user 상태 확인) 바로 홈으로 리다이렉트
+    console.log("Login.jsx: 53", isAuthenticated);
+    if (isAuthenticated) {
+      nav('//');
     }
-    console.log('Login component mounted/auth changed, auth status:', auth);
-    // Cleanup function (optional, runs when component unmounts or dependencies change)
-    return () => {
-      console.log('Login component unmounted or auth dependency changed cleanup.');
-    };
-  }, [auth, nav]); // Dependencies array: runs when 'auth' or 'nav' changes
+    console.log('Login component mounted/auth changed, isAuthenticated:', isAuthenticated);
+  }, [isAuthenticated, nav]); // isAuthenticated를 의존성으로 추가
 
   return (
       <div
@@ -74,7 +100,7 @@ const Login = ({ setAuth, auth }) => {
               <a href="#" className="text-blue-600 hover:underline">Forgot Password?</a>
             </div>
             <button
-                onClick={() => nav('/hc_h_m/register')}
+                onClick={() => nav('/register')}
                 className="text-blue-600 hover:underline px-0 py-0 text-sm" // Blue text, underline on hover, no padding, small font size
             >
               Register
@@ -84,5 +110,4 @@ const Login = ({ setAuth, auth }) => {
       </div>
   );
 };
-
 export default Login;

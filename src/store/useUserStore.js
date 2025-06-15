@@ -5,7 +5,6 @@ export const useUserStore = create(
     persist(
         (set, get) => ({
           user: null, // 초기 사용자 정보 (로그아웃 상태)
-          role: null, // 사용자 역할
 
           login: (userData, jwtToken, userRole) => {
             set({ user: userData, role: userRole });
